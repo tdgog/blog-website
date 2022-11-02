@@ -5,6 +5,12 @@ export default {
             category: "programming",
             subcategory: "javascript",
             component: require('../blogs/Blog1')
+        },
+        {
+            name: "My Test Blog",
+            category: "programming",
+            subcategory: "javascript",
+            component: require('../blogs/Blog1')
         }
     ]
 }
