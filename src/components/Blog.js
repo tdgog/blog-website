@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const categories = {
     javascript: {
@@ -14,8 +15,15 @@ export default function BlogBox({ name, preview, previewImage, goto, category })
     const categoryData = categories[category];
     const containerRef = useRef();
     const categoryTextRef = useRef();
+    const navigate = useNavigate();
 
-    return <div ref={containerRef} className={`w-full bg-zinc-700 shadow-2xl rounded-md border-${category} border-t-4 p-5`}>
+    return <div 
+        ref={containerRef} 
+        className={`w-full transition-all duration-300 hover:bg-zinc-600 bg-zinc-700 hover:shadow-2xl shadow-xl rounded-md border-${category} border-t-4 p-5 cursor-pointer`}
+        onClick={() => {
+            navigate(goto);
+        }}
+    >
         <div className='flex space-x-3 items-center'>
             <img className='h-5' src={categoryData.logo} />
             <p ref={categoryTextRef} className={`text-md tracking-[.4em] text-${category} font-bold`}>

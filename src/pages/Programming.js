@@ -7,11 +7,13 @@ export default function Programming() {
                 name='My Blog'
                 preview='This is a preview of the text in my blog to hook the reader in'
                 category='javascript'
+                goto='jsblog'
             />
             <BlogBox
                 name='My Blog'
                 preview='This is a preview of the text in my blog to hook the reader in'
                 category='luau'
+                goto='luaublog'
             />
         </div>
     </div>
