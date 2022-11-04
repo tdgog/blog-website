@@ -1,5 +1,4 @@
 function ColourBackground({ colour1, colour2, colour3, colour4, colour5, colour6, mirror }) {
-    console.log(colour1, colour2, colour3)
     const Top = () => <>
         <div className={`stripe-base ${colour1} z-1 -skew-x-[45deg]`} />
         <div className={`stripe-base ${colour2} z-10 -translate-x-[100px] -skew-x-[45deg]`} />
@@ -32,16 +31,21 @@ function ColourBackground({ colour1, colour2, colour3, colour4, colour5, colour6
 }
 
 export default function PageBackground({ children }) {
-    return <div className='bg-zinc-700 w-screen h-screen'>
+    return <div className='w-full h-screen overflow-x-hidden'>
         <div className='relative z-50'>
             {children}
         </div>
 
-        <ColourBackground
-            colour1='bg-[#6CAE75]'
-            colour2='bg-[#FC7A1E]'
-            colour3='bg-[#C5D5E4]'
-            mirror
-        />
+        <div className='fixed top-0 w-screen h-screen -z-50 bg-zinc-700'>
+            <ColourBackground
+                // colour1='bg-[#6CAE75]'
+                // colour2='bg-[#FC7A1E]'
+                // colour3='bg-[#C5D5E4]'
+                colour1='bg-[#BE3A34]'
+                colour2='bg-[#046A38]'
+                colour3='bg-[#FFB81C]'
+                mirror
+            />
+        </div>
     </div>
 }

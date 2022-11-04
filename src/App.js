@@ -3,15 +3,7 @@ import Navbar from "./components/Navigation";
 import PageBackground from "./components/PageBackground";
 import Home from "./pages/Home";
 import Programming from "./pages/Programming";
-
-function importAll(dir) {
-    let files = {};
-    dir.keys().map(item => {
-        const diritem = dir(item);
-        files[item.replace('./', '').replace('.js', '')] = <diritem.default />;
-    })
-    return files;
-}
+import importAll from "./utils/ImportAll";
 
 function App() {
     const blogs = importAll(require.context('./blogs', false, /\.js$/));
@@ -24,10 +16,10 @@ function App() {
                 <Route path='/programming' element={<Programming />} />
 
                 {/* Blog routes */}
-                {Object.keys(blogs).map((blog, i) => <Route
+                {blogs.map((blog, i) => <Route
                     key={i}
-                    path={'/blogs/' + blog}
-                    element={blogs[blog]}
+                    path={'/blogs/' + blog.name}
+                    element={<blog.default />}
                 />)}
             </Routes>
         </PageBackground>
