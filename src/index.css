@@ -17,8 +17,8 @@
     box-shadow: 10px 0 10px rgba(0 0 0 / .25);
 }
 
-.square-base {
-    @apply absolute aspect-square rounded-xl;
+.flex-center {
+    @apply justify-center items-center;
 }
 
 h1, h2 {

@@ -10,18 +10,20 @@ function App() {
 
     return <HashRouter>
         <PageBackground>
-            <Navbar />
-            <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/programming' element={<Programming />} />
+            <div className='flex h-screen flex-col'>
+                <Navbar />
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/programming' element={<Programming />} />
 
-                {/* Blog routes */}
-                {blogs.map((blog, i) => <Route
-                    key={i}
-                    path={'/blogs/' + blog.name}
-                    element={<blog.default />}
-                />)}
-            </Routes>
+                    {/* Blog routes */}
+                    {blogs.map((blog, i) => <Route
+                        key={i}
+                        path={'/blogs/' + blog.name}
+                        element={<blog.default />}
+                    />)}
+                </Routes>
+            </div>
         </PageBackground>
     </HashRouter>
 }
