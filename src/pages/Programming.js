@@ -1,4 +1,4 @@
-import BlogBox, { BlogPreviewGrid } from '../components/Blog';
+import { BlogPreviewGrid } from '../components/Blog';
 
 export default function Programming() {
     return <div className='m-5'>

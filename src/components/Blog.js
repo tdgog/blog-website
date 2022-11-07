@@ -1,8 +1,7 @@
-import React, { createRef, useEffect, useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import { theme } from "../assets/VSCodeTheme";
-import { Scrollbars } from 'react-custom-scrollbars-2';
 import importAll from '../utils/ImportAll';
 
 const categories = {
@@ -29,7 +28,7 @@ export default function BlogBox({ name, preview, previewImage, goto, category })
         }}
     >
         <div className='flex space-x-3 items-center'>
-            <img className='h-5' src={categoryData.logo} />
+            <img className='h-5' src={categoryData.logo} alt={category} />
             <p className={`text-md tracking-[.4em] text-${category.replace(' ', '')} font-bold`}>
                 {category.toUpperCase()}
             </p>
@@ -85,7 +84,6 @@ export class BlogPage extends React.Component {
         this.CodeBlock = this.CodeBlock.bind(this);
     }
 
-    // Returns children in format [{ type: 'name', child: jsxRef }, ...]
     get formattedChildren() {
         return this.props.children.map(child => {
             const type = typeof child.type;
@@ -122,7 +120,7 @@ export class BlogPage extends React.Component {
         return <h1
             {...props}
             className={`text-white text-6xl my-7 font-bold ${customClassName}`}
-        />
+        >{props.children || null}</h1>
     }
 
     h2(props) {
@@ -130,7 +128,7 @@ export class BlogPage extends React.Component {
         return <h1
             {...props}
             className={`text-${this.color} text-4xl my-7 font-bold ${customClassName}`}
-        />
+        >{props.children || null}</h1>
     }
 
     h3(props) {
@@ -138,7 +136,7 @@ export class BlogPage extends React.Component {
         return <h1
             {...props}
             className={`text-${this.color} text-2xl my-7 font-bold ${customClassName}`}
-        />
+        >{props.children || null}</h1>
     }
 
     p(props) {
@@ -165,9 +163,9 @@ export class BlogPage extends React.Component {
         if(props.border) {
             let alteredprops = {...props};
             delete alteredprops.border;
-            return <img {...alteredprops} className={`my-5 border-2 border-${this.color} ${customClassName}`} />
+            return <img alt={props.alt || null} {...alteredprops} className={`my-5 border-2 border-${this.color} ${customClassName}`} />
         }
-        return <img {...props} className={`my-5 ${customClassName}`} />
+        return <img alt={props.alt || null} {...props} className={`my-5 ${customClassName}`} />
     }
 
     ul(props) {
@@ -216,6 +214,7 @@ export class BlogPage extends React.Component {
 
     render() {
         const children = this.formattedChildren;
+        console.log(children)
 
         return <div className={`w-2/3 p-5 border-zinc-600 border-t-${this.color} border-t-[6px] border-2`}>
             <p className={`text-md tracking-[.4em] text-${this.category.replace(' ', '')} font-bold`}>

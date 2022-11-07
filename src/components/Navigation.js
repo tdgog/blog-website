@@ -1,17 +1,32 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-function NavigationButton({ text, goto, selected, setSelected }) {
+function DropdownButton({ text, goto }) {
+    return <Link to={goto} className=''>{text}</Link>
+}
+
+function Dropdown({ children }) {
+    return <>
+        <div className='dropdown'>
+            {children.map((child, i) => <DropdownButton text={child.text} goto={child.goto} key={i} />)}
+        </div>
+    </>
+}
+
+function NavigationButton({ text, goto, selected, setSelected, children }) {
     const navigate = useNavigate();
 
-    return <div onClick={() => {
-        setSelected(goto);
-        navigate(goto);
-    }}>
-        <p className={`
-            ${selected === goto ? 'text-white font-bold' : 'text-white/50 hover:font-bold cursor-pointer '} 
-            text-2xl select-none duration-1000 transition-
-        `}>{text}</p>
+    return <div className='relative flex justify-center group h-full items-center'>
+        <div onClick={() => {
+            setSelected(goto);
+            navigate(goto);
+        }}>
+            <p className={`
+                ${selected === goto ? 'text-white' : 'text-white/50 hover:text-white/75 cursor-pointer '} 
+                text-2xl select-none duration-500 transition-all
+            `}>{text}</p>
+        </div>
+        {children}
     </div>
 }
 
@@ -23,7 +38,21 @@ export default function Navbar() {
         },
         {
             text: 'Programming',
-            goto: '/programming'
+            goto: '/programming',
+            dropdown: [
+                {
+                    text: 'C',
+                    goto: '/programing/c',
+                },
+                {
+                    text: 'Python',
+                    goto: '/programming/py',
+                },
+                {
+                    text: 'JavaScript',
+                    goto: '/programming/js',
+                }
+            ]
         },
         {
             text: 'Content Areas',
@@ -47,6 +76,10 @@ export default function Navbar() {
             goto={page.goto}
             selected={selected}
             setSelected={setSelected}   
-        />)}
+        >
+            {page.dropdown && <Dropdown>
+                {page.dropdown}
+            </Dropdown>}
+        </NavigationButton>)}
     </div>
 }

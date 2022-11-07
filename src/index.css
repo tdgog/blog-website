@@ -12,6 +12,15 @@
     src: url('./assets/fonts/OpenSans-VFW.ttf');
 }
 
+.dropdown {
+    @apply absolute -top-32 group-hover:top-14 -z-30;
+    @apply bg-zinc-900 group-hover:bg-zinc-900 bg-transparent;
+    @apply w-32 rounded drop-shadow-md;
+    @apply [&>*]:group-hover:visible [&>*]:invisible text-white;
+    @apply flex flex-col p-2;
+    @apply transition-all duration-300;
+}
+
 .stripe-base {
     @apply absolute top-0 -left-[10%] w-full h-full;
     box-shadow: 10px 0 10px rgba(0 0 0 / .25);
