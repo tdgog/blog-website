@@ -3,6 +3,7 @@ import Navbar from "./components/Navigation";
 import PageBackground from "./components/PageBackground";
 import Home from "./pages/Home";
 import Programming from "./pages/Programming";
+import JavaScript from "./pages/programming/Javascript";
 import importAll from "./utils/ImportAll";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/programming' element={<Programming />} />
+                        <Route path='/programming/js' element={<JavaScript />} /> 
 
                     {/* Blog routes */}
                     {blogs.map((blog, i) => <Route

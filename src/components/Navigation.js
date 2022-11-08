@@ -37,7 +37,7 @@ export default function Navbar() {
             goto: '/'
         },
         {
-            text: 'Programming',
+            text: 'Programming ▾',
             goto: '/programming',
             dropdown: [
                 {
@@ -55,8 +55,22 @@ export default function Navbar() {
             ]
         },
         {
-            text: 'Content Areas',
-            goto: '/contentareas'
+            text: 'Content Areas ▾',
+            goto: '/contentareas',
+            dropdown: [
+                {
+                    text: 'CA1 - CA4',
+                    goto: '/content/1-4',
+                },
+                {
+                    text: 'CA5 - CA8',
+                    goto: '/content/5-8',
+                },
+                {
+                    text: 'User Experience',
+                    goto: '/content/ux',
+                }
+            ]
         },
         {
             text: 'Projects',
@@ -64,7 +78,7 @@ export default function Navbar() {
         },
         {
             text: 'Industry Placement',
-            goto: '/placement'
+            goto: '/blogs/yandiyaapp'
         }
     ]
 
