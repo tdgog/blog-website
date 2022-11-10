@@ -4,6 +4,7 @@ import PageBackground from "./components/PageBackground";
 import Home from "./pages/Home";
 import Programming from "./pages/Programming";
 import JavaScript from "./pages/programming/Javascript";
+import SamStuff from "./pages/SamStuff";
 import importAll from "./utils/ImportAll";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='/programming' element={<Programming />} />
                         <Route path='/programming/js' element={<JavaScript />} /> 
+                    <Route path='/content/sam' element={<SamStuff />} />
 
                     {/* Blog routes */}
                     {blogs.map((blog, i) => <Route

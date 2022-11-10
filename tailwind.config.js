@@ -6,28 +6,32 @@ module.exports = {
     ...[
       'javascript',
       'luau',
-      'reactnative'
+      'reactnative',
+      't-level'
     ].map(x => 'bg-' + x),
 
     // Text colour
     ...[
       'javascript',
       'luau',
-      'reactnative'
+      'reactnative',
+      't-level'
     ].map(x => 'text-' + x),
 
     // Border colour
     ...[
       'javascript',
       'luau',
-      'reactnative'
+      'reactnative',
+      't-level'
     ].map(x => 'border-' + x),
 
     // Border top colour
     ...[
       'javascript',
       'luau',
-      'reactnative'
+      'reactnative',
+      't-level'
     ].map(x => 'border-t-' + x)
   ],
 
@@ -39,7 +43,8 @@ module.exports = {
       colors: {
         javascript: '#f7df1e',
         luau: '#00a2ff',
-        reactnative: '#61dbfb'
+        reactnative: '#61dbfb',
+        't-level': '#FB431D'
       },
       fontFamily: {
         'comfortaa': 'Comfortaa Variable Weight',

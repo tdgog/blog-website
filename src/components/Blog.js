@@ -14,6 +14,9 @@ const categories = {
     },
     'react native': {
         logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/539px-React-icon.svg.png'
+    },
+    't-level': {
+        logo: require('../assets/images/logos/TLevel.png')
     }
 }
 
@@ -169,10 +172,14 @@ export class BlogPage extends React.Component {
     }
 
     ul(props) {
-        return <div className='pt-3'>
+        const customClassName = props.className || '';
+        return <div className={`pt-3 ${customClassName}`}>
             {props.children.map((child, i) => {
-                return <div key={i} className='flex space-x-5 pb-3 items-center'>
-                    <div className={`ml-5 bg-${this.color} rounded-full h-2 aspect-square`} />
+                if(child.type === 'ul') {
+                    return <this.ul className='pl-12' children={child.props.children} />
+                }
+                return <div key={i} className='flex space-x-5 pb-3'>
+                    <div className={`ml-5 mt-3 bg-${this.color} rounded-full h-2 aspect-square`} />
                     <this.p {...child.props} />
                 </div>
             })}

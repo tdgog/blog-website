@@ -69,6 +69,10 @@ export default function Navbar() {
                 {
                     text: 'User Experience',
                     goto: '/content/ux',
+                },
+                {
+                    text: 'Sam',
+                    goto: '/content/sam',
                 }
             ]
         },
