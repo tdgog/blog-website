@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/blog-website/static/css/main.f49a1a91.css",
-    "main.js": "/blog-website/static/js/main.c2db0a73.js",
+    "main.js": "/blog-website/static/js/main.8b3c5d6d.js",
     "static/media/OpenSans-VFW.ttf": "/blog-website/static/media/OpenSans-VFW.ceb05254cedfa895b512.ttf",
     "static/media/Comfortaa-VFW.ttf": "/blog-website/static/media/Comfortaa-VFW.4d2ab5de91c4d193a69f.ttf",
     "static/media/JavaScript.png": "/blog-website/static/media/JavaScript.266bd9fb2663dcc057b4.png",
     "index.html": "/blog-website/index.html",
     "main.f49a1a91.css.map": "/blog-website/static/css/main.f49a1a91.css.map",
-    "main.c2db0a73.js.map": "/blog-website/static/js/main.c2db0a73.js.map"
+    "main.8b3c5d6d.js.map": "/blog-website/static/js/main.8b3c5d6d.js.map"
   },
   "entrypoints": [
     "static/css/main.f49a1a91.css",
-    "static/js/main.c2db0a73.js"
+    "static/js/main.8b3c5d6d.js"
   ]
 }
