@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import { theme } from "../assets/VSCodeTheme";
 import importAll from '../utils/ImportAll';
+const module = require('./Blog');
 
 const categories = {
     javascript: {
@@ -47,7 +48,6 @@ export default function BlogBox({ name, preview, previewImage, goto, category })
 
 export function BlogPreviewGrid({ tag }) {
     const blogs = importAll(require.context('../blogs', false, /\.js$/));
-    console.log(blogs)
 
     return <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
         {blogs.map((blog, i) => {
@@ -76,6 +76,8 @@ export class BlogPage extends React.Component {
             codeblockDimensions: []
         }
 
+        this.functionIDs = {};
+
         // Binds (necessary if I want to access component props such as this.color)
         this.h2 = this.h2.bind(this);
         this.Contents = this.Contents.bind(this);
@@ -85,6 +87,11 @@ export class BlogPage extends React.Component {
         this.Image = this.Image.bind(this);
         this.ul = this.ul.bind(this);
         this.CodeBlock = this.CodeBlock.bind(this);
+
+        // Add custom components to the registry
+        this.addId('Contents');
+        this.addId('Image');
+        this.addId('CodeBlock');
     }
 
     get formattedChildren() {
@@ -97,7 +104,7 @@ export class BlogPage extends React.Component {
                 }
             } else if(type === 'function') {
                 return {
-                    type: child.type.name,
+                    type: this.getNameFromID(child.type.name),
                     child: child
                 }
             } else {
@@ -116,6 +123,20 @@ export class BlogPage extends React.Component {
 
     get color() {
         return this.category.replace(' ', '');
+    }
+
+    getNameFromID(id) {
+        let found = undefined;
+        Object.keys(this.functionIDs).map(name => {
+            if(name === id) {
+                found = this.functionIDs[name];
+            }
+        });
+        return found;
+    }
+
+    addId(name) {
+        this.functionIDs[module[name].name] = name;
     }
 
     h1(props) {
@@ -176,7 +197,7 @@ export class BlogPage extends React.Component {
         return <div className={`pt-3 ${customClassName}`}>
             {props.children.map((child, i) => {
                 if(child.type === 'ul') {
-                    return <this.ul className='pl-12' children={child.props.children} />
+                    return <this.ul key={i} className='pl-12' children={child.props.children} />
                 }
                 return <div key={i} className='flex space-x-5 pb-3'>
                     <div className={`ml-5 mt-3 bg-${this.color} rounded-full h-2 aspect-square`} />
@@ -221,9 +242,9 @@ export class BlogPage extends React.Component {
 
     render() {
         const children = this.formattedChildren;
-        console.log(children)
 
-        return <div className={`w-2/3 p-5 border-zinc-600 border-t-${this.color} border-t-[6px] border-2`}>
+        // Usually w-2/3
+        return <div className={`w-full p-5 border-zinc-600 border-t-${this.color} border-t-[6px] border-2`}>
             <p className={`text-md tracking-[.4em] text-${this.category.replace(' ', '')} font-bold`}>
                 {this.category.toUpperCase()}
             </p>
