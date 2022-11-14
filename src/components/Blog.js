@@ -26,7 +26,7 @@ export default function BlogBox({ name, preview, previewImage, goto, category })
     const navigate = useNavigate();
 
     return <div 
-        className={`w-full transition-all duration-300 hover:bg-zinc-600 bg-zinc-700 hover:shadow-2xl shadow-xl rounded-md border-${category.replace(' ', '')} border-t-4 p-5 cursor-pointer`}
+        className={`w-full transition-all duration-300 hover:bg-zinc-700 bg-zinc-800 hover:shadow-2xl shadow-xl rounded-md border-${category.replace(' ', '')} border-t-4 p-5 cursor-pointer`}
         onClick={() => {
             navigate('/blogs/' + goto);
         }}
