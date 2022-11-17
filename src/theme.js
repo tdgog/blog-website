@@ -1,2 +1,2 @@
 const themeconfig = require('./colours.config')
-export default themeconfig.default.theme;
+export default themeconfig;

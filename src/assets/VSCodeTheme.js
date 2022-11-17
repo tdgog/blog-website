@@ -1,4 +1,4 @@
-export const theme = {
+export default {
     "plain": {
         "color": "#eeeeee",
         "backgroundColor": "#141417"

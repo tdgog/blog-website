@@ -1,8 +1,10 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import importAll, { getAllBlogsOfCategory } from '../utils/Blogs';
 import theme from "../theme";
+import codeTheme from '../assets/VSCodeTheme'
 const module = require('./Blog');
 
 const categories = {
@@ -48,7 +50,6 @@ export default function BlogBox({ name, preview, previewImage, goto, category })
 
 export function BlogPreviewGrid({ tag }) {
     const blogs = importAll(require.context('../blogs', false, /\.js$/));
-    console.log(blogs)
 
     return <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
         {blogs.map((blog, i) => {
@@ -154,7 +155,7 @@ export class BlogPage extends React.Component {
 
     h2(props) {
         const customClassName = props.className || '';
-        return <h1
+        return <h1 id={props.children.replace(/\s+/g, '-').toLowerCase()}
             {...props}
             className={`text-${this.color} text-4xl my-7 font-bold ${customClassName}`}
         >{props.children || null}</h1>
@@ -221,7 +222,7 @@ export class BlogPage extends React.Component {
                     numberOfSubtitles++;
                     return <div key={numberOfSubtitles} className='flex space-x-3 items-center'>
                         <this.p>{numberOfSubtitles}: </this.p>
-                        <this.Link to={`#${subtitle.props.children}`}>{subtitle.props.children}</this.Link>
+                        <this.Link to={`#${subtitle.props.children.replace(/\s+/g, '-').toLowerCase()}`}>{subtitle.props.children}</this.Link>
                     </div>
                 }
             })}
@@ -233,7 +234,7 @@ export class BlogPage extends React.Component {
             <div className='absolute right-5 top-3 select-none text-transparent group-hover:text-white transition-all'>
                 <p className='text-xl'>{props.language}</p>
             </div>
-            <Highlight {...defaultProps} theme={theme} code={props.code} language={props.language}>
+            <Highlight {...defaultProps} theme={codeTheme} code={props.code} language={props.language}>
                 {({ className, style, tokens, getLineProps, getTokenProps }) => {
                     return <pre className={`${className} px-5 py-3 rounded-lg border-2 border-${this.color} overflow-x-scroll no-scrollbar`} style={style}>
                         {tokens.map((line, i) => <div {...getLineProps({ line, key: i })}>
@@ -304,13 +305,9 @@ export class BlogPage extends React.Component {
 }
 
 function ContactFormComponent({ colour }) {
-    const onSubmit = () => {
-        console.log("Form submitted")
-    }
-
     //eslint-disable-next-line
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const emailChanged = (event) => {
         setEmail(event.target.value);
@@ -321,7 +318,7 @@ function ContactFormComponent({ colour }) {
         }
     }
 
-    const [subject, setSubject] = useState();
+    const [subject, setSubject] = useState('');
     const [subjectError, setSubjectError] = useState(false);
     const subjectChanged = (event) => {
         setSubject(event.target.value)
@@ -332,7 +329,7 @@ function ContactFormComponent({ colour }) {
         }
     }
 
-    const [message, setMessage] = useState();
+    const [message, setMessage] = useState('');
     const [messageError, setMessageError] = useState(false);
     const messageChanged = (event) => {
         setMessage(event.target.value)
@@ -346,25 +343,56 @@ function ContactFormComponent({ colour }) {
     const [textColour, setTextColour] = useState('black');
     const ref = useRef();
     useLayoutEffect(() => {
-        const [ hexR, hexG, hexB ] = theme.extend.colors[ref.current.className.match(/bg-[\w-]+/)[0].substr(3)].substr(1).match(/.{2}/g);
+        const [ hexR, hexG, hexB ] = theme[ref.current.className.match(/bg-[\w-]+/)[0].substr(3)].substr(1).match(/.{2}/g);
         
         const red = parseInt(hexR, 16);
         const green = parseInt(hexG, 16);
         const blue = parseInt(hexB, 16);
 
         if ((red*0.299 + green*0.587 + blue*0.114) > 186) {
-            console.log('black for', red, green, blue)
             setTextColour('black')
         } else {
-            console.log('white for', red, green, blue)
             setTextColour('white')
         }
     })
 
-    return <form className='flex flex-col' onSubmit={onSubmit}>
+    const [submitText, setSubmitText] = useState('Submit');
+    const formref = useRef();
+    const onSubmit = (event) => {
+        event.preventDefault()
+
+        if(emailError || subjectError || messageError) {
+            setSubmitText('One or more fields are invalid')
+            setTimeout(() => {
+                setSubmitText('Submit')
+            }, 3000);
+            return;
+        }
+
+        const email = event.target.elements.email.value;
+        const subject = event.target.elements.subject.value
+        const message = event.target.elements.message.value
+
+        if(!(email && subject && message)) {
+            setSubmitText('One or more fields are empty')
+            setTimeout(() => {
+                setSubmitText('Submit')
+            }, 2000);
+            return;
+        }
+
+        const link = 'mailto:tgoggin004@fareham.ac.uk'
+            + "?subject=" + encodeURIComponent(subject)
+            + "&body=" + encodeURIComponent(`Sent by ${email}\n\n${message}`)
+        
+        window.location.href = link;
+    }
+
+    return <form className='flex flex-col' ref={formref} onSubmit={onSubmit}>
         <input
             type='text'
             placeholder='Email'
+            name='email'
             value={email}
             onChange={emailChanged}
             className={`
@@ -376,6 +404,7 @@ function ContactFormComponent({ colour }) {
         <input
             type='text'
             placeholder='Subject'
+            name='subject'
             value={subject}
             onChange={subjectChanged}
             className={`
@@ -388,35 +417,36 @@ function ContactFormComponent({ colour }) {
         <textarea
             type='text'
             placeholder='Your message'
+            name='message'
             value={message}
             onChange={messageChanged}
             className={`
                 form-input border-zinc-700
                 ${messageError ? 'border-b-red-700' : null}
-                focus:border-b-${colour} resize-y min-h-[49.5px]
+                focus:border-b-${colour} resize-y h-52
             `}
         />
-        <div
+        <button
             className={`
                 border-[3px] border-${colour} 
                 p-2
                 text-${colour} font-bold text-lg
                 flex flex-center
-                cursor-pointer
+                cursor-pointer [&>*]:cursor-pointer
                 relative overflow-hidden group
                 
             `}
+            type='submit'
         >
-            <input
-                type='submit'
-                value='Submit'
+            <p
                 className={`z-50 group-hover:text-${textColour} transition-all duration-1000`}
+                children={submitText}
             />
             <div ref={ref} className={`
                 bg-${colour} h-[500%] w-[110%] absolute transition-all duration-1000
                 -translate-x-[100%] group-hover:translate-x-0 rotate-12
             `} />
-        </div>
+        </button>
     </form>
 }
 
