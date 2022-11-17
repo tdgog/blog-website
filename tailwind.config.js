@@ -1,2 +1,2 @@
-const tailwindConfig = require('./src/tailwind.config');
-module.exports = tailwindConfig;
+const config = require('./src/colours.config')
+module.exports = config.default

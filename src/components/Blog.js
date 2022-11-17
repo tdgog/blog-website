@@ -346,7 +346,7 @@ function ContactFormComponent({ colour }) {
     const [textColour, setTextColour] = useState('black');
     const ref = useRef();
     useLayoutEffect(() => {
-        const [ hexR, hexG, hexB ] = theme.colors[ref.current.className.match(/bg-[\w-]+/)[0].substr(3)].substr(1).match(/.{2}/g);
+        const [ hexR, hexG, hexB ] = theme.extend.colors[ref.current.className.match(/bg-[\w-]+/)[0].substr(3)].substr(1).match(/.{2}/g);
         
         const red = parseInt(hexR, 16);
         const green = parseInt(hexG, 16);
