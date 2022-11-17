@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Highlight, { defaultProps } from "prism-react-renderer";
-import { theme } from "../assets/VSCodeTheme";
-import importAll from '../utils/ImportAll';
+import importAll, { getAllBlogsOfCategory } from '../utils/Blogs';
+import theme from "../theme";
 const module = require('./Blog');
 
 const categories = {
@@ -48,10 +48,11 @@ export default function BlogBox({ name, preview, previewImage, goto, category })
 
 export function BlogPreviewGrid({ tag }) {
     const blogs = importAll(require.context('../blogs', false, /\.js$/));
+    console.log(blogs)
 
     return <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
         {blogs.map((blog, i) => {
-            if(blog.config.tags.includes(tag)) {
+            if(blog.config.tags.includes(tag) || blog.config.category === tag) {
                 return <BlogBox key={i}
                     name={blog.config.name}
                     preview={blog.config.preview}
@@ -70,7 +71,8 @@ export class BlogPage extends React.Component {
         super();
         this.props = props;
 
-        this.category = props.category;
+        this.config = props.config;
+        this.category = props.config.category;
 
         this.state = {
             codeblockDimensions: []
@@ -87,6 +89,9 @@ export class BlogPage extends React.Component {
         this.Image = this.Image.bind(this);
         this.ul = this.ul.bind(this);
         this.CodeBlock = this.CodeBlock.bind(this);
+        this.Box = this.Box.bind(this);
+        this.SimilarBlogs = this.SimilarBlogs.bind(this);
+        this.ContactForm = this.ContactForm.bind(this);
 
         // Add custom components to the registry
         this.addId('Contents');
@@ -240,23 +245,179 @@ export class BlogPage extends React.Component {
         </div>
     }
 
-    render() {
-        const children = this.formattedChildren;
-
-        // Usually w-2/3
-        return <div className={`w-full p-5 border-zinc-600 border-t-${this.color} border-t-[6px] border-2`}>
-            <p className={`text-md tracking-[.4em] text-${this.category.replace(' ', '')} font-bold`}>
-                {this.category.toUpperCase()}
-            </p>
-            {children.map((child, i) => {
-                const LocalComponent = this[child.type];
-                if(LocalComponent) 
-                    return <LocalComponent key={i} {...child.child.props} />
-                return child.child;
-            })}
+    Box({ children }) {
+        return <div className={`w-full p-5 mb-5 border-zinc-600 border-t-${this.color} border-t-[6px] border-2 flex flex-col`}>
+            {children}
         </div>
     }
 
+    SimilarBlogs() {
+        const blogsOfCategory = getAllBlogsOfCategory(this.category);
+        let blogsToShow = [];
+        blogsOfCategory.forEach((blog, key) => {
+            if(blog.config.name !== this.config.name)
+                blogsToShow.push(<this.Link 
+                    key={key}
+                    to={'/blogs/' + blog.name}
+                    children={blog.config.name}
+                />)
+        });
+
+        if(blogsToShow.length >= 1) {
+            return <this.Box>
+                <h2 className='text-3xl text-white'>Similar Blogs</h2>
+                {blogsToShow}
+            </this.Box>
+        }
+        return null;
+    }
+
+    ContactForm() {
+        return <this.Box>
+            <h2 className='text-3xl text-white mb-2'>Contact Me</h2>
+            <ContactFormComponent colour={this.color} />
+        </this.Box>
+    }
+
+    render() {
+        const children = this.formattedChildren;
+
+        return <div className='w-full h-full flex space-x-3'>
+            <div className={`w-2/3 p-5 border-zinc-600 border-t-${this.color} border-t-[6px] border-2`}>
+                <p className={`text-md tracking-[.4em] text-${this.category.replace(' ', '')} font-bold`}>
+                    {this.category.toUpperCase()}
+                </p>
+                {children.map((child, i) => {
+                    const LocalComponent = this[child.type];
+                    if(LocalComponent) 
+                        return <LocalComponent key={i} {...child.child.props} />
+                    return child.child;
+                })}
+            </div>
+            <div className='w-1/3 h-full flex flex-col'>
+                <this.SimilarBlogs />
+                <this.ContactForm />
+            </div>
+        </div>
+    }
+
+}
+
+function ContactFormComponent({ colour }) {
+    const onSubmit = () => {
+        console.log("Form submitted")
+    }
+
+    //eslint-disable-next-line
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const [email, setEmail] = useState();
+    const [emailError, setEmailError] = useState(false);
+    const emailChanged = (event) => {
+        setEmail(event.target.value);
+        if(regex.test(event.target.value)) {
+            setEmailError(false);
+        } else {
+            setEmailError(true);
+        }
+    }
+
+    const [subject, setSubject] = useState();
+    const [subjectError, setSubjectError] = useState(false);
+    const subjectChanged = (event) => {
+        setSubject(event.target.value)
+        if(event.target.value.length < 1) {
+            setSubjectError(true);
+        } else {
+            setSubjectError(false);
+        }
+    }
+
+    const [message, setMessage] = useState();
+    const [messageError, setMessageError] = useState(false);
+    const messageChanged = (event) => {
+        setMessage(event.target.value)
+        if(event.target.value.length < 1) {
+            setMessageError(true);
+        } else {
+            setMessageError(false);
+        }
+    }
+
+    const [textColour, setTextColour] = useState('black');
+    const ref = useRef();
+    useLayoutEffect(() => {
+        const [ hexR, hexG, hexB ] = theme.colors[ref.current.className.match(/bg-[\w-]+/)[0].substr(3)].substr(1).match(/.{2}/g);
+        
+        const red = parseInt(hexR, 16);
+        const green = parseInt(hexG, 16);
+        const blue = parseInt(hexB, 16);
+
+        if ((red*0.299 + green*0.587 + blue*0.114) > 186) {
+            console.log('black for', red, green, blue)
+            setTextColour('black')
+        } else {
+            console.log('white for', red, green, blue)
+            setTextColour('white')
+        }
+    })
+
+    return <form className='flex flex-col' onSubmit={onSubmit}>
+        <input
+            type='text'
+            placeholder='Email'
+            value={email}
+            onChange={emailChanged}
+            className={`
+                form-input border-zinc-700
+                ${emailError ? 'border-b-red-700' : null}
+                focus:border-b-${colour}
+            `}
+        />
+        <input
+            type='text'
+            placeholder='Subject'
+            value={subject}
+            onChange={subjectChanged}
+            className={`
+                form-input border-zinc-700
+                ${subjectError ? 'border-b-red-700' : null}
+                focus:border-b-${colour}
+            `}
+            
+        />
+        <textarea
+            type='text'
+            placeholder='Your message'
+            value={message}
+            onChange={messageChanged}
+            className={`
+                form-input border-zinc-700
+                ${messageError ? 'border-b-red-700' : null}
+                focus:border-b-${colour} resize-y min-h-[49.5px]
+            `}
+        />
+        <div
+            className={`
+                border-[3px] border-${colour} 
+                p-2
+                text-${colour} font-bold text-lg
+                flex flex-center
+                cursor-pointer
+                relative overflow-hidden group
+                
+            `}
+        >
+            <input
+                type='submit'
+                value='Submit'
+                className={`z-50 group-hover:text-${textColour} transition-all duration-1000`}
+            />
+            <div ref={ref} className={`
+                bg-${colour} h-[500%] w-[110%] absolute transition-all duration-1000
+                -translate-x-[100%] group-hover:translate-x-0 rotate-12
+            `} />
+        </div>
+    </form>
 }
 
 // Placeholder components

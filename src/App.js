@@ -1,11 +1,12 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navigation";
 import PageBackground from "./components/PageBackground";
+import ContentAreas from "./pages/ContentAreas";
 import Home from "./pages/Home";
 import Programming from "./pages/Programming";
 import JavaScript from "./pages/programming/Javascript";
 import SamStuff from "./pages/SamStuff";
-import importAll from "./utils/ImportAll";
+import importAll from "./utils/Blogs";
 
 function App() {
     const blogs = importAll(require.context('./blogs', false, /\.js$/));
@@ -18,7 +19,8 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='/programming' element={<Programming />} />
                         <Route path='/programming/js' element={<JavaScript />} /> 
-                    <Route path='/content/sam' element={<SamStuff />} />
+                    <Route path='/content' element={<ContentAreas />} />
+                        <Route path='/content/sam' element={<SamStuff />} />
 
                     {/* Blog routes */}
                     {blogs.map((blog, i) => <Route

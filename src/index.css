@@ -12,13 +12,20 @@
     src: url('./assets/fonts/OpenSans-VFW.ttf');
 }
 
+/* -top-32 group-hover:top-[105%] */
 .dropdown {
-    @apply absolute -top-32 group-hover:top-[105%] -z-30;
+    @apply absolute top-[105%] -z-30;
     @apply bg-zinc-900 group-hover:bg-zinc-900 bg-transparent;
     @apply w-32 rounded drop-shadow-md;
     @apply [&>*]:group-hover:visible [&>*]:invisible text-white;
     @apply flex flex-col p-2;
     @apply transition-all duration-300;
+}
+
+.form-input {
+    @apply bg-transparent p-2 mb-2 px-4 transition-colors duration-1000;
+    @apply border-[3px] outline-none;
+    @apply text-white text-lg;
 }
 
 .stripe-base {

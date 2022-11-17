@@ -8,3 +8,15 @@ export default function importAll(dir) {
         }
     })
 }
+
+export function getAllBlogsOfCategory(category) {
+    let array = [];
+    let allBlogs = importAll(require.context('../blogs', false, /\.js$/));
+
+    allBlogs.forEach(blog => {
+        if(blog.config.category === category)
+            array.push(blog);
+    });
+
+    return array;
+}

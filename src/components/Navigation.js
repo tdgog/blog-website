@@ -56,7 +56,7 @@ export default function Navbar() {
         },
         {
             text: 'Content Areas ▾',
-            goto: '/contentareas',
+            goto: '/content',
             dropdown: [
                 {
                     text: 'CA1 - CA4',

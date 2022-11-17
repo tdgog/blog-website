@@ -9,7 +9,7 @@ export const config = {
 
 export default function Page() {
     return <div className='p-5'>
-        <BlogPage category={config.category}>
+        <BlogPage config={config}>
             <h1>System Requirements</h1>
             <Image alt='header image' src='https://hsdc-cdn.s3.amazonaws.com/uploads/2019/12/T-Level-Landing-Page-Banner-v3.jpg' />
             <Contents />
