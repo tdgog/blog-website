@@ -93,6 +93,7 @@ export class BlogPage extends React.Component {
         this.Box = this.Box.bind(this);
         this.SimilarBlogs = this.SimilarBlogs.bind(this);
         this.ContactForm = this.ContactForm.bind(this);
+        this.table = this.table.bind(this);
 
         // Add custom components to the registry
         this.addId('Contents');
@@ -211,6 +212,12 @@ export class BlogPage extends React.Component {
                 </div>
             })}
         </div>
+    }
+
+    table(props) {
+        return <table className='table'>
+            {props.children}
+        </table>
     }
 
     Contents(props) {

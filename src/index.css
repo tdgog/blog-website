@@ -53,9 +53,30 @@ p {
     display: none;
 }
 
-/* html {
-    box-sizing: border-box;
-  }
-*, *:before, *:after {
-  box-sizing: inherit;
-} */
+/* Table */
+.table {
+    @apply w-full text-sm text-left text-gray-400;
+}
+    .table > caption {
+        @apply p-5 text-lg font-semibold text-left text-white bg-zinc-800/50;
+    }
+        .table > caption > p {
+            @apply mt-1 text-sm font-normal text-gray-400;
+        }
+    .table > thead {
+        @apply text-xs uppercase bg-zinc-700/50 text-gray-400;
+    }
+        .table > thead > tr > th {
+            @apply py-3 px-6;
+        }
+    .table > tbody > tr {
+        @apply transition-all duration-300 border-b bg-zinc-800/50 border-zinc-700 hover:bg-zinc-700/30;
+    }
+        .table > tbody > tr :nth-child(1) {
+            @apply py-4 px-6 font-medium whitespace-nowrap text-white;
+        }
+        .table > tbody > tr > td {
+            @apply py-4 px-6;
+        }
+
+
