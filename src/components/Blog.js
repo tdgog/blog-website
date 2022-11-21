@@ -311,6 +311,22 @@ export class BlogPage extends React.Component {
 
 }
 
+function CoolSquareBackgroundThing() {
+    return <ul className='circles'>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+}
+
 function ContactFormComponent({ colour }) {
     //eslint-disable-next-line
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -452,7 +468,9 @@ function ContactFormComponent({ colour }) {
             <div ref={ref} className={`
                 bg-${colour} h-[500%] w-[110%] absolute transition-all duration-1000
                 -translate-x-[100%] group-hover:translate-x-0 rotate-12
-            `} />
+            `}>
+                <CoolSquareBackgroundThing />
+            </div>
         </button>
     </form>
 }
