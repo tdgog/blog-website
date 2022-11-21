@@ -67,7 +67,7 @@ p {
         @apply text-xs uppercase bg-zinc-700/50 text-gray-400;
     }
         .table > thead > tr > th {
-            @apply py-3 px-6;
+            @apply py-3 px-6 whitespace-nowrap;
         }
     .table > tbody > tr {
         @apply transition-all duration-300 border-b bg-zinc-800/50 border-zinc-700 hover:bg-zinc-700/30;
