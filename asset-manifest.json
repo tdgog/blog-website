@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/blog-website/static/css/main.d7413ccb.css",
-    "main.js": "/blog-website/static/js/main.1957383f.js",
+    "main.css": "/blog-website/static/css/main.c94c775a.css",
+    "main.js": "/blog-website/static/js/main.a49f40e9.js",
     "static/media/OpenSans-VFW.ttf": "/blog-website/static/media/OpenSans-VFW.ceb05254cedfa895b512.ttf",
     "static/media/Comfortaa-VFW.ttf": "/blog-website/static/media/Comfortaa-VFW.4d2ab5de91c4d193a69f.ttf",
     "static/media/gibjohn_colourbg.png": "/blog-website/static/media/gibjohn_colourbg.cfe60cc6978b7a273b6c.png",
     "static/media/JavaScript.png": "/blog-website/static/media/JavaScript.266bd9fb2663dcc057b4.png",
     "index.html": "/blog-website/index.html",
-    "main.d7413ccb.css.map": "/blog-website/static/css/main.d7413ccb.css.map",
-    "main.1957383f.js.map": "/blog-website/static/js/main.1957383f.js.map"
+    "main.c94c775a.css.map": "/blog-website/static/css/main.c94c775a.css.map",
+    "main.a49f40e9.js.map": "/blog-website/static/js/main.a49f40e9.js.map"
   },
   "entrypoints": [
-    "static/css/main.d7413ccb.css",
-    "static/js/main.1957383f.js"
+    "static/css/main.c94c775a.css",
+    "static/js/main.a49f40e9.js"
   ]
 }
